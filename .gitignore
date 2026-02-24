@@ -3,4 +3,6 @@ venv/
 __pycache__/
 # Ignore the Notes folder
 Notes/
-
+docs/
+.env.local.prod
+.env.local.dev
