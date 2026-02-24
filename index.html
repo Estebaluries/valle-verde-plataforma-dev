@@ -9,15 +9,31 @@
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <h2>Inmobiliaria Valle Verde</h2>
+    <header class="site-header" id="main-header">
+        <div class="header-container">
+        
+        <a href="/" class="header-logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Valle<span>Verde</span>
+        </a>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <nav class="main-nav" id="main-nav">
+        <ul class="nav-list">
+            <li><a href="#inicio" class="nav-link">Inicio</a></li>
+            <li><a href="#propiedades" class="nav-link">Propiedades</a></li>
+            <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+        </ul>
+        
+        <div class="header-actions">
+            <a href="#contacto" class="btn-primary">Asesoría Gratuita</a>
         </div>
-        <nav>
-            <a href="#inicio">Inicio</a>
-            <a href="#propiedades">Propiedades</a>
-            <a href="#contacto">Contacto</a>
         </nav>
+
+        </div>
     </header>
 
     <section id="inicio" class="hero">
@@ -63,11 +79,48 @@
         </div>
     </div>
 
-    <footer id="contacto">
-        <p>Agente: Julio Cesar Vegasoria</p>
-        <p>📞 (656) 197 0506 | ✉️ ejecutivosinmobiliarios33@gmail.com</p>
-        <p>&copy; 2026 Inmobiliaria Valle Verde</p>
-    </footer>
+    <footer class="site-footer">
+  <div class="footer-container">
+    
+    <div class="footer-brand">
+      <h3 class="footer-logo">Valle Verde <span>Bienes Raíces</span></h3>
+      <p class="footer-tagline">Tu patrimonio, nuestra prioridad en Ciudad Juárez.</p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Propiedades</h4>
+      <ul>
+        <li><a href="#en-venta">En Venta</a></li>
+        <li><a href="#en-renta">En Renta</a></li>
+        <li><a href="#desarrollos">Nuevos Desarrollos</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-social">
+      <h4>Conéctate</h4>
+      <div class="social-icons">
+        <a href="#" target="_blank" aria-label="Facebook de Valle Verde" class="icon-link">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" target="_blank" aria-label="Instagram de Valle Verde" class="icon-link">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a href="#" target="_blank" aria-label="LinkedIn de Valle Verde" class="icon-link">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2026 Inmobiliaria Valle Verde. Todos los derechos reservados.</p>
+    <div class="legal-links">
+      <a href="#privacidad">Aviso de Privacidad</a>
+      <a href="#terminos">Términos y Condiciones</a>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
