@@ -1,7 +1,7 @@
 // ==========================================
 // 1. CONFIGURACIÓN Y VARIABLES GLOBALES
 // ==========================================
-const API_URL = 'https://valle-verde-plataforma.onrender.com/api';
+const API_URL = 'https://valle-verde-plataforma-dev.onrender.com/api';
 const contenedorPropiedades = document.getElementById('lista-propiedades');
 const modal = document.getElementById('modal-lead');
 let propiedadesGlobales = []; // Caché para filtrar instantáneamente sin gastar red
