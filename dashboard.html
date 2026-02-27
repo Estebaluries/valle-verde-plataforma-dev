@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Inmobiliaria Valle Verde</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos inline para el Login Overlay */
+        #login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--color-brand-primary);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+        .login-card {
+            background: white; padding: 2.5rem; border-radius: var(--radius-lg);
+            width: 100%; max-width: 400px; box-shadow: var(--shadow-lg); text-align: center;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. PANTALLA DE LOGIN -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <h2 style="color: var(--color-brand-primary); margin-bottom: 0.5rem;">Valle Verde Admin</h2>
+            <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Acceso exclusivo para agentes</p>
+            
+            <form id="login-form">
+                <input type="email" id="email" placeholder="usuario@valleverde.com" required 
+                       style="width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <input type="password" id="password" placeholder="Contraseña" required 
+                       style="width: 100%; padding: 12px; margin-bottom: 1.5rem; border: 1px solid #ddd; border-radius: 8px;">
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 12px;">Ingresar al Sistema</button>
+            </form>
+            <p id="login-error" style="color: #d32f2f; margin-top: 1rem; font-size: 0.9rem;"></p>
+        </div>
+    </div>
+
+    <!-- 2. LAYOUT DEL DASHBOARD -->
+    <div class="dashboard-layout hidden" id="dashboard-app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div style="margin-bottom: 2rem; padding-left: 1rem;">
+                <h3 style="color: var(--color-brand-primary); margin: 0;">Valle Verde</h3>
+                <span style="font-size: 0.8rem; color: var(--color-text-muted);">Panel de Control</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="#" class="sidebar-link active">📊 Resumen</a></li>
+                <li><a href="#" class="sidebar-link">👥 Leads (CRM)</a></li>
+                <li><a href="#" class="sidebar-link">🏠 Propiedades</a></li>
+                <li><a href="#" class="sidebar-link">👔 Agentes</a></li>
+            </ul>
+
+            <div style="margin-top: auto; padding: 1rem;">
+                <button onclick="logout()" style="background: none; border: none; color: #d32f2f; cursor: pointer; font-weight: 600;">
+                    ← Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main style="padding: 2rem; background-color: #f8fafc;">
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1 style="margin: 0; font-size: 1.8rem;">Hola, <span id="user-name">Agente</span> 👋</h1>
+                <span style="background: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; border: 1px solid #e2e8f0;">
+                    📅 <span id="current-date">Hoy</span>
+                </span>
+            </header>
+
+            <!-- KPIs -->
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Leads Nuevos</div>
+                    <div class="stat-value">12</div>
+                    <div style="color: var(--color-success-text); font-size: 0.85rem; margin-top: 0.5rem;">↑ 4 hoy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Propiedades Activas</div>
+                    <div class="stat-value">28</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Cierres del Mes</div>
+                    <div class="stat-value">3</div>
+                </div>
+            </div>
+
+            <!-- Tabla Reciente -->
+            <div class="card" style="padding: 0; border: none; box-shadow: var(--shadow-sm);">
+                <div style="padding: 1.5rem; border-bottom: 1px solid var(--color-border); display: flex; justify-content: space-between;">
+                    <h3 style="margin: 0;">Últimos Interesados</h3>
+                    <button class="btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Ver Todos</button>
+                </div>
+                <table class="data-table" style="margin-top: 0; border-radius: 0;">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Interés</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-table-body">
+                        <!-- Se llenará con JS -->
+                        <tr><td colspan="5" style="text-align:center;">Cargando datos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = 'https://valle-verde-plataforma-dev.onrender.com/api'; // Ajustar a localhost en dev
+        
+        // Lógica de Login
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('vv_token', data.data.token);
+                    localStorage.setItem('vv_user', data.data.nombre);
+                    iniciarDashboard(data.data.nombre);
+                } else {
+                    errorMsg.innerText = data.message || 'Error de acceso';
+                }
+            } catch (err) {
+                errorMsg.innerText = 'Error de conexión con el servidor.';
+            }
+        });
+
+        function iniciarDashboard(nombre) {
+            document.getElementById('login-overlay').classList.add('hidden');
+            document.getElementById('dashboard-app').classList.remove('hidden');
+            document.getElementById('user-name').innerText = nombre;
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = new Date().toLocaleDateString('es-MX', options);
+            
+            cargarLeads();
+        }
+
+        async function cargarLeads() {
+            const tbody = document.getElementById('leads-table-body');
+            try {
+                const token = localStorage.getItem('vv_token');
+                const res = await fetch(`${API_URL}/leads`, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const json = await res.json();
+                
+                if (json.status === 'success' && json.data.length > 0) {
+                    tbody.innerHTML = json.data.map(lead => {
+                        const propiedad = lead.propiedades ? lead.propiedades.titulo : 'Propiedad General';
+                        const fecha = new Date(lead.created_at).toLocaleDateString('es-MX');
+                        
+                        return `
+                            <tr>
+                                <td>${lead.nombre}<br><small style="color:#666">${lead.email}</small></td>
+                                <td>${propiedad}</td>
+                                <td>${fecha}</td>
+                                <td><span class="badge badge-venta">Nuevo</span></td>
+                                <td>
+                                    <a href="tel:${lead.telefono}" style="color: var(--color-brand-primary); text-decoration:none; font-weight: bold;">Llamar</a>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem;">No hay leads registrados aún.</td></tr>';
+                }
+            } catch (error) {
+                console.error(error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: red;">Error al cargar leads.</td></tr>';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('vv_token');
+            location.reload();
+        }
+
+        // Auto-login simple para desarrollo
+        if (localStorage.getItem('vv_token')) {
+            iniciarDashboard(localStorage.getItem('vv_user') || 'Agente');
+        }
+    </script>
+</body>
+</html>

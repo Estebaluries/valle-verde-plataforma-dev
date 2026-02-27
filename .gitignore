@@ -1,8 +1,78 @@
+# Environment variables
 .env
+.env.local
+.env.local.dev
+.env.local.prod
+.env.production
+
+# Python
 venv/
+env/
 __pycache__/
-# Ignore the Notes folder
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node/Frontend
+node_modules/
+dist/
+.next/
+out/
+**/dist/**
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Temporary files
+tmpclaude-*
+*.tmp
+*.temp
+~*
+.tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Project-specific
 Notes/
 docs/
-.env.local.prod
-.env.local.dev
+.ai-context.md
+.cliconfig
+GEMINI.md
+PROJECT_TREE.md
+README-CONTEXT.md
+Chisme.txt
+
+# Build artifacts
+build/
+*.egg
+.eggs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Caches
+.cache/
+*.cache
